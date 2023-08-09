@@ -25,6 +25,7 @@ int StepCommand::execute(Packet *packet)
     {
         addr = strtoul(packet->recv_buf+1, nullptr, 16);
     }
+    (void)addr;
 
     auto target = m_debugger->target();
     ThreadCpuRegisters register_sets;

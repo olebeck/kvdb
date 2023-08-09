@@ -107,8 +107,8 @@ extern "C"
             return EXCEPTION_NOT_HANDLED;
         }
 
-        SceKernelFaultingProcessInfo info;
-        ksceKernelGetFaultingProcess(&info); // TODO: check result
+        SceKernelThreadContextInfo info;
+        ksceKernelGetThreadContextInfo(&info); // TODO: check result
         g_abt_excp_count = reinterpret_cast<std::uint32_t *>(ksceExcpmgrGetData());
 
         auto code = ((ctx->ifsr & 0x400) >> 6) | (ctx->ifsr & 0xF);
@@ -118,17 +118,17 @@ extern "C"
             auto target = debugger->target();
 
             // check if its our process
-            if (target->pid != info.pid)
+            if (target->pid != info.process_id)
             {
                 return EXCEPTION_NOT_HANDLED;
             }
 
-            target->excpt_tid = info.faultingThreadId;
+            target->excpt_tid = info.thread_id;
 
             int status = 0;
             ksceKernelGetProcessStatus(target->pid, &status); // TODO: check result
 
-            ksceKernelChangeThreadSuspendStatus(info.faultingThreadId, 0x1002); // TODO: check result
+            ksceKernelChangeThreadSuspendStatus(info.thread_id, 0x1002); // TODO: check result
 
             // lets suspend the process for further processing by gdb
             debugger->halt(0x1C);
@@ -155,24 +155,24 @@ extern "C"
             return EXCEPTION_NOT_HANDLED;
         }
 
-        SceKernelFaultingProcessInfo info;
-        ksceKernelGetFaultingProcess(&info); // TODO: check result
+        SceKernelThreadContextInfo info;
+        ksceKernelGetThreadContextInfo(&info); // TODO: check result
         g_abt_excp_count = reinterpret_cast<std::uint32_t *>(ksceExcpmgrGetData());
 
         auto target = debugger->target();
 
         // check if its our process
-        if (target->pid != info.pid)
+        if (target->pid != info.process_id)
         {
             return EXCEPTION_NOT_HANDLED;
         }
 
-        target->excpt_tid = info.faultingThreadId;
+        target->excpt_tid = info.thread_id;
 
         int status = 0;
         ksceKernelGetProcessStatus(target->pid, &status); // TODO: check result
 
-        ksceKernelChangeThreadSuspendStatus(info.faultingThreadId, 0x1002); // TODO: check result
+        ksceKernelChangeThreadSuspendStatus(info.thread_id, 0x1002); // TODO: check result
 
         // lets suspend the process for further processing by gdb
         debugger->halt(0x1C);
@@ -196,8 +196,8 @@ extern "C"
             return EXCEPTION_NOT_HANDLED;
         }
 
-        SceKernelFaultingProcessInfo info;
-        ksceKernelGetFaultingProcess(&info); // TODO: check result
+        SceKernelThreadContextInfo info;
+        ksceKernelGetThreadContextInfo(&info); // TODO: check result
         g_abt_excp_count = reinterpret_cast<std::uint32_t *>(ksceExcpmgrGetData());
 
         //auto code = ((ctx->ifsr & 0x400) >> 6) | (ctx->ifsr & 0xF);
@@ -207,17 +207,17 @@ extern "C"
             auto target = debugger->target();
 
             // check if its our process
-            if (target->pid != info.pid)
+            if (target->pid != info.process_id)
             {
                 return EXCEPTION_NOT_HANDLED;
             }
 
-            target->excpt_tid = info.faultingThreadId;
+            target->excpt_tid = info.thread_id;
 
             int status = 0;
             ksceKernelGetProcessStatus(target->pid, &status); // TODO: check result
 
-            ksceKernelChangeThreadSuspendStatus(info.faultingThreadId, 0x1002); // TODO: check result
+            ksceKernelChangeThreadSuspendStatus(info.thread_id, 0x1002); // TODO: check result
 
             // lets suspend the process for further processing by gdb
             debugger->halt(0x1C);

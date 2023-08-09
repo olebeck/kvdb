@@ -48,6 +48,7 @@ namespace
             MsgPipeSendData data;
             data.message = &m_tx_msg;
             data.size = 1;
+            (void)data;
 
             // TODO: check return
             m_tx.write(reinterpret_cast<const char *>(&m_tx_msg), 1);

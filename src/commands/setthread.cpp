@@ -19,6 +19,7 @@ int SetThreadCommand::execute(Packet *packet)
 {
     auto target = m_debugger->target();
     auto op = packet->recv_buf[1];
+    (void)op;
     auto thread_id = strtol(packet->recv_buf+2, nullptr, 16);
 
     if (thread_id != -1 && thread_id != 0)

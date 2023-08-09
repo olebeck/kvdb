@@ -23,8 +23,6 @@ bool ResumeCommand::is(const Packet *packet) const
 
 int ResumeCommand::execute(Packet *packet)
 {
-    auto target = m_debugger->target();
-
     m_debugger->resume(); // TODO: CHECK ERRORS
     
     // we're NOT non-stop, we need to wait for signal
